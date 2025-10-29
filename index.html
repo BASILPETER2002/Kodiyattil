@@ -1,0 +1,3675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodiyattil Family Portal</title>
+   <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #4a6b3b;
+    --secondary: #d4a762;
+    --light: #f8f5f0;
+    --dark: #1a1a1a;
+    --edit: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    overflow-x: hidden;
+}
+
+/* Header */
+.main-header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0 8px;
+    height: 70px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.k-symbol {
+    margin-right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.family-logo {
+    max-height: 60px;
+    max-width: none;
+    width: auto;
+    height: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.header-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-right: 0;
+    padding-right: 4px;
+}
+
+.header-btn {
+    background: var(--primary, #4a6b3b);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.header-btn:hover {
+    background: var(--secondary, #d4a762);
+    color: var(--dark, #1a1a1a);
+}
+
+.header-logout {
+    display: none; 
+    margin-left: 32px;
+    background: #e74c3c;
+    color: #fff;
+    padding: 6px 16px;
+    font-size: 0.92rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.header-logout:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
+/* Show logout button only when authenticated */
+body.authenticated .header-logout {
+    display: block;
+}
+
+/* Show edit/upload/notification only for editors */
+body.authenticated.has-edit-permission .edit-photo-btn,
+body.authenticated.has-edit-permission .upload-section,
+body.authenticated.has-edit-permission #addNotificationBtn {
+    display: inline-block !important;
+}
+
+/* Hero section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1527525443983-6e60c75fff46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tagline {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.question {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 3rem;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background-color: var(--secondary);
+    color: var(--dark);
+}
+
+.btn-primary:hover {
+    background-color: #e8b95c;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Login section */
+.login-section {
+    padding: 80px 20px;
+    background-color: white;
+    display: none;
+}
+.login-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: var(--light);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+.home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+.input-error {
+    border-color: #e74c3c !important;
+    animation: shake 0.5s;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+.login-error {
+    color: #e74c3c;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #fdecea;
+    border-radius: 4px;
+    border-left: 4px solid #e74c3c;
+}
+#loginBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+.form-group { margin-bottom: 20px; }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.login-links {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+.login-links a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Welcome section */
+.welcome-section {
+    padding: 100px 20px;
+    text-align: center;
+    display: none;
+    background-color: white;
+}
+.welcome-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--light);
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+.welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+.welcome-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    color: #555;
+}
+.explore-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.explore-btn:hover {
+    background-color: #3a5a2c;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Main Content */
+.main-content {
+    display: none;
+    padding: 40px 20px;
+}
+
+/* Family Tree Section */
+.family-tree-section {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+.tree-header { margin-bottom: 40px; }
+.tree-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+.tree-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+.tree-image-container {
+    margin: 40px auto;
+    max-width: 900px;
+    border: 10px solid var(--light);
+    box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+}
+.tree-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Family Members Section */
+.family-members-section {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.generation-container { margin-bottom: 60px; }
+.generation-title {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary);
+}
+.couples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+.couple-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.couple-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.couple-photo {
+    width: 100%;
+    height: 180px;
+    margin: 0 auto 15px;
+    border-radius: 8px;
+    background-color: #eee;
+    display: flex;
+    overflow: hidden;
+}
+.husband-photo, .wife-photo {
+    width: 50%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+.single-photo {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+}
+.couple-names {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+.couple-dates {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+.children-count {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+/* Photo Upload Button */
+.edit-photo-btn {
+    display: none;
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+.edit-photo-btn:hover { background-color: #c0954e; }
+
+/* Photo Upload Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+.modal-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+.upload-preview {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin: 15px 0;
+    border-radius: 5px;
+    display: none;
+}
+/* Add to your existing CSS */
+.photo-item {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: scale(1.05);
+}
+
+/* Modal enhancements */
+.modal-content img {
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Loading state for photos */
+[id$="-photo"] {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.3s ease;
+}
+
+/* Gallery Section */
+.gallery-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 0;
+    background-color: var(--light);
+}
+.gallery-container { padding: 0 20px; }
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+.photo-item {
+    height: 200px;
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+.photo-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Family Map Section */
+.family-map-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.map-controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.map-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.map-btn:hover {
+    background-color: #3a5a2c;
+}
+
+.map-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+#familyMap {
+    height: 500px;
+    flex: 1;
+    min-width: 300px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.map-legend {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+
+.map-legend h4 {
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.color-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.color-dot.mathew { background-color: #4e79a7; }
+.color-dot.varghese { background-color: #f28e2c; }
+.color-dot.poulose { background-color: #e15759; }
+.color-dot.thankachan { background-color: #76b7b2; }
+
+.family-members-list {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.members-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.member-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.member-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+
+.member-name {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.member-location {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.member-branch {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    color: white;
+}
+
+.branch-mathew { background-color: #4e79a7; }
+.branch-varghese { background-color: #f28e2c; }
+.branch-poulose { background-color: #e15759; }
+.branch-thankachan { background-color: #76b7b2; }
+
+/* Map popup styling */
+.map-popup {
+    text-align: center;
+}
+
+.map-popup h4 {
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.map-popup p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+}
+
+/* Map marker styles */
+.family-marker {
+    background-color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.marker-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Generation-based colors */
+.generation-1 .marker-inner { background-color: #8e44ad; }
+.generation-2 .marker-inner { background-color: #3498db; }
+.generation-3 .marker-inner { background-color: #2ecc71; }
+.generation-4 .marker-inner { background-color: #f39c12; }
+.generation-5 .marker-inner { background-color: #e74c3c; }
+
+/* Branch-based colors for connection lines */
+.branch-mathew .marker-inner { background-color: #4e79a7; }
+.branch-varghese .marker-inner { background-color: #f28e2c; }
+.branch-poulose .marker-inner { background-color: #e15759; }
+.branch-thankachan .marker-inner { background-color: #76b7b2; }
+
+.leaflet-popup-content {
+    margin: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.map-popup h4 {
+    margin: 0 0 8px 0;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.map-popup p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-container {
+        flex-direction: column;
+    }
+    
+    #familyMap {
+        height: 350px;
+        margin-bottom: 20px;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        margin-bottom: 15px;
+    }
+    
+    .map-btn {
+        align-self: stretch;
+        margin-top: 10px;
+    }
+    
+    .members-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-nav {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    
+    .header-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .header-logout {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
+
+/* Upload section */
+.upload-section {
+    display: none;
+    margin-top: 40px;
+    text-align: center;
+}
+.upload-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.upload-btn:hover { background-color: #3a5a2c; }
+
+/* Delete button styles */
+.delete-photo-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(231, 76, 60, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-item:hover .delete-photo-btn {
+    opacity: 1;
+}
+
+.photo-item {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: scale(1.05);
+}
+
+/* Notifications */
+.notification-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    border-left: 4px solid var(--secondary);
+}
+.notification-item p { margin: 5px 0; }
+
+/* About/Contact */
+.about-content p, .contact-content p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+.contact-content a { color: var(--primary); text-decoration: none; }
+.contact-content a:hover { text-decoration: underline; }
+
+/* Footer */
+.footer {
+    background-color: var(--primary);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+.footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+.footer-links a {
+    color: white;
+    text-decoration: none;
+}
+.copyright {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Navigation */
+.navigation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+}
+.nav-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* =================================================================================
+   INTRODUCTION STYLES
+   ================================================================================= */
+.introduction-container {
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border-left: 3px solid var(--secondary);
+    position: relative;
+}
+
+.introduction-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.introduction-meta {
+    font-size: 0.75rem;
+    color: #888;
+    text-align: right;
+}
+
+.edit-intro-btn {
+    display: none;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s;
+}
+
+.edit-intro-btn:hover {
+    background-color: #3a5a2c;
+}
+
+.intro-edit-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+.intro-edit-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.intro-save-btn, .intro-cancel-btn {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.intro-save-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.intro-cancel-btn {
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Show edit intro button for authenticated users */
+body.authenticated .edit-intro-btn {
+    display: inline-block;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 576px) {
+    .hero-content {
+        padding: 0 10px;
+    }
+    
+    .logo {
+        font-size: 2.5rem;
+    }
+    
+    .tagline {
+        font-size: 1.1rem;
+    }
+    
+    .question {
+        font-size: 1.4rem;
+    }
+    
+    .options {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .login-container, .welcome-container {
+        padding: 30px 20px;
+    }
+    
+    .couples-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tree-title, .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Map loading state */
+#familyMap.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Error states */
+.error-message {
+    color: #e74c3c;
+    padding: 10px;
+    background-color: #fdecea;
+    border-radius: 4px;
+    border-left: 4px solid #e74c3c;
+    margin: 10px 0;
+}
+
+/* Success states */
+.success-message {
+    color: #27ae60;
+    padding: 10px;
+    background-color: #eafaf1;
+    border-radius: 4px;
+    border-left: 4px solid #27ae60;
+    margin: 10px 0;
+}
+</style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" 
+      crossorigin=""/>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="header-logo">
+                <span class="k-symbol">
+                    <img src="logo.png" alt="Kodiyattil Family Logo" class="family-logo">
+                </span>
+            </a>
+            <nav class="header-nav">
+                <button class="header-btn" id="navHomeBtn">Home</button>
+                <button class="header-btn" id="navNotificationBtn">Notifications</button>
+                <button class="header-btn" id="navAboutBtn">About</button>
+                <button class="header-btn" id="navContactBtn">Contact</button>
+                <button class="header-logout" id="navLogoutBtn">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Landing Page -->
+    <div class="hero" id="heroSection">
+        <div class="hero-content">
+            <h1 class="logo">Kodiyattil</h1>
+            <p class="tagline">One Family • One Legacy • One Love</p>
+            <h2 class="question">Are you a Kodiyattil family member?</h2>
+            <div class="options">
+                <button class="btn btn-primary" id="yesBtn">Yes</button>
+                <button class="btn btn-outline" id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Family Notifications</h3>
+            <div id="notificationList">
+                <!-- Notifications will be added here dynamically -->
+            </div>
+            <button class="header-btn" style="margin-top: 20px; display: none;" id="addNotificationBtn">Add Notification</button>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">About Kodiyattil Family</h3>
+            <div class="about-content">
+                <p>The Kodiyattil family is a close-knit Christian family originating from Kerala, India, with a rich heritage and strong family values.</p>
+                <p>Our family tree traces back to Pathrose and Mariyam Kodiyattil, who established our family legacy in the early 20th century.</p>
+                <p>Today, the Kodiyattil family spans multiple generations with members across India and abroad, maintaining our traditions while embracing modern values.</p>
+                <p>This portal serves as a digital home for our family history, connections, and shared memories.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Contact Family Admin</h3>
+            <div class="contact-content">
+                <p><strong>Phone:</strong> <a href="tel:9061159621">9061159621</a></p>
+                <p><strong>Instagram:</strong> <a href="https://www.instagram.com/__bazilll/" target="_blank">@__bazilll</a></p>
+                <p><strong>Email:</strong> <a href="mailto:kodiyattilfamily@gmail.com">kodiyattilfamily@gmail.com</a></p>
+                <p>Please contact for any updates to family information or website issues.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Upload Modal -->
+    <div id="photoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Update Profile Photo</h3>
+            <form id="photoUploadForm" enctype="multipart/form-data">
+                <input type="hidden" id="photoMemberId" name="memberId">
+                <input type="file" id="memberPhotoUpload" name="photo" accept="image/*" required>
+                <img id="uploadPreview" class="upload-preview" alt="Image Preview">
+                <button type="submit" id="savePhotoBtn" class="upload-btn" style="margin-top: 15px;">Save Photo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <section class="login-section" id="loginSection">
+        <div class="login-container">
+            <button class="home-btn" id="loginHomeBtn">
+                <i class="fas fa-arrow-left"></i> Home
+            </button>
+            <img src="logo.png" alt="Kodiyattil Family Logo" class="family-logo" style="max-width: 120px;">
+            <h2 class="login-title">Family Portal</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="Enter your family email"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        minlength="6"
+                        required
+                    >
+                </div>
+                <button class="login-btn" type="submit" id="loginBtn">Login</button>
+            </form>
+            <div class="login-links">
+                <a href="#">Forgot password?</a> | <a href="#">Request access</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Welcome Section -->
+    <section class="welcome-section" id="welcomeSection">
+        <div class="welcome-container">
+            <button class="home-btn" id="welcomeHomeBtn">
+                <i class="fas fa-arrow-left"></i> Home
+            </button>
+            <h2 class="welcome-title">Welcome to Explore!</h2>
+            <p class="welcome-text">
+                This website celebrates the legacy, culture, and memories of the Kodiyattil family. 
+                Learn about our history, connect with relatives, and explore our photo gallery and family tree.
+            </p>
+            <button class="explore-btn" id="exploreBtn">Let's Go →</button>
+        </div>
+    </section>
+    
+    <!-- Main Content (shown after login or explore) -->
+    <div class="main-content" id="mainContent">
+        <!-- Family Tree Section -->
+        <section class="family-tree-section">
+            <div class="tree-header">
+                <h2 class="tree-title">The Kodiyattil Family Tree</h2>
+                <p class="tree-subtitle">Our ancestral lineage through generations</p>
+            </div>
+            
+            <div class="tree-image-container">
+                <img src="images/kodiyattil-family-tree.png" alt="Kodiyattil Family Tree" class="tree-image">
+            </div>
+        </section>
+       <!-- Family Map Section -->
+<section class="family-map-section">
+    <div class="section-header">
+        <h2 class="section-title">Kodiyattil Family World Map</h2>
+        <p class="section-subtitle">See where our family members are located around the world</p>
+    </div>
+    
+    <div class="map-controls">
+        <div class="filter-group">
+            <label>Filter by Branch:</label>
+            <select id="branchFilter">
+                <option value="all">All Branches</option>
+                <option value="mathew">Mathew & Mary</option>
+                <option value="varghese">Varghese & Annakutty</option>
+                <option value="poulose">Poulose & Mariyakutti</option>
+                <option value="thankachan">Thankachan & Susy</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Filter by Generation:</label>
+            <select id="generationFilter">
+                <option value="all">All Generations</option>
+                <option value="2">2nd Generation</option>
+                <option value="3">3rd Generation</option>
+                <option value="4">4th Generation</option>
+                <option value="5">5th Generation</option>
+            </select>
+        </div>
+        
+        <button id="resetFilters" class="map-btn">Reset Filters</button>
+    </div>
+    
+    <div class="map-container">
+        <div id="familyMap"></div>
+        <div class="map-legend">
+            <h4>Family Branches</h4>
+            <div class="legend-item">
+                <span class="color-dot mathew"></span>
+                <span>Mathew & Mary</span>
+            </div>
+            <div class="legend-item">
+                <span class="color-dot varghese"></span>
+                <span>Varghese & Annakutty</span>
+            </div>
+            <div class="legend-item">
+                <span class="color-dot poulose"></span>
+                <span>Poulose & Mariyakutti</span>
+            </div>
+            <div class="legend-item">
+                <span class="color-dot thankachan"></span>
+                <span>Thankachan & Susy</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="family-members-list">
+        <h3>Family Members</h3>
+        <div id="membersContainer" class="members-container">
+            <!-- Dynamic content will be added here -->
+        </div>
+    </div>
+</section> 
+        <!-- Family Members Section -->
+        <section class="family-members-section">
+            <h2 class="section-title">Family Generations</h2>
+            
+            <!-- GREAT GRANDPARENTS (Always visible) -->
+            <div class="generation-container">
+                <h3 class="generation-title">Great Grandparents Generation</h3>
+                <div class="couples-grid">
+                    <div class="couple-card" onclick="showGeneration('grandparentsGen', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="pathrose-photo"></div>
+                            <div class="wife-photo" id="mariyam-photo"></div>
+                        </div>
+                        <div class="couple-names">Pathrose & Mariyam</div>
+                        <div class="couple-dates">
+                            Pathrose: 1890-1960<br>
+                            Mariyam: 1895-1965
+                        </div>
+                        <div class="children-count">4 sons</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="pathrose-mariyam-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="pathrose-mariyam">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Pathrose & Mariyam..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="pathrose-photo">Edit Pathrose's Photo</button>
+                        <button class="edit-photo-btn" data-target="mariyam-photo">Edit Mariyam's Photo</button>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top: 18px;">
+                    <button id="familyBackBtn" style="display:none; padding:8px 28px; border-radius:20px; background:#eee; color:#333; border:1px solid #bbb; font-size:1rem; cursor:pointer;">Back</button>
+                </div>
+            </div>
+            
+            <!-- GRANDPARENTS GENERATION (Hidden initially) -->
+            <div class="generation-container" id="grandparentsGen" style="display:none">
+                <h3 class="generation-title">Grandparents Generation</h3>
+                <div class="couples-grid">
+                    <!-- MATHEW & MARY -->
+                    <div class="couple-card" onclick="showGeneration('mathewChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="mathew-photo"></div>
+                            <div class="wife-photo" id="mary-photo"></div>
+                        </div>
+                        <div class="couple-names">Mathew & Mary</div>
+                        <div class="couple-dates">
+                            Mathew: 1920-1990<br>
+                            Mary: 1925-1995
+                        </div>
+                        <div class="children-count">3 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="mathew-mary-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="mathew-mary">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Mathew & Mary..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="mathew-photo">Edit Mathew's Photo</button>
+                        <button class="edit-photo-btn" data-target="mary-photo">Edit Mary's Photo</button>
+                    </div>
+                    
+                    <!-- VARGHESE & ANNAKUTTY -->
+                    <div class="couple-card" onclick="showGeneration('vargheseChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="varghese-photo"></div>
+                            <div class="wife-photo" id="annakutty-photo"></div>
+                        </div>
+                        <div class="couple-names">Varghese & Annakutty</div>
+                        <div class="couple-dates">
+                            Varghese: 1922-1992<br>
+                            Annakutty: 1927-1997
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="varghese-annakutty-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="varghese-annakutty">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Varghese & Annakutty..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="varghese-photo">Edit Varghese's Photo</button>
+                        <button class="edit-photo-btn" data-target="annakutty-photo">Edit Annakutty's Photo</button>
+                    </div>
+                    
+                    <!-- POULOSE & MARIYAKUTTI -->
+                    <div class="couple-card" onclick="showGeneration('pouloseChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="poulose-photo"></div>
+                            <div class="wife-photo" id="mariyakutti-photo"></div>
+                        </div>
+                        <div class="couple-names">Poulose & Mariyakutti</div>
+                        <div class="couple-dates">
+                            Poulose: 1925-1995<br>
+                            Mariyakutti: 1930-2000
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="poulose-mariyakutti-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="poulose-mariyakutti">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Poulose & Mariyakutti..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="poulose-photo">Edit Poulose's Photo</button>
+                        <button class="edit-photo-btn" data-target="mariyakutti-photo">Edit Mariyakutti's Photo</button>
+                    </div>
+                    
+                    <!-- THANKACHAN & SUSY -->
+                    <div class="couple-card" onclick="showGeneration('thankachanChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="thankachan-photo"></div>
+                            <div class="wife-photo" id="susy-photo"></div>
+                        </div>
+                        <div class="couple-names">Thankachan & Susy</div>
+                        <div class="couple-dates">
+                            Thankachan: 1930-2000<br>
+                            Susy: 1935-2005
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="thankachan-susy-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="thankachan-susy">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Thankachan & Susy..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="thankachan-photo">Edit Thankachan's Photo</button>
+                        <button class="edit-photo-btn" data-target="susy-photo">Edit Susy's Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MATHEW'S CHILDREN -->
+            <div class="generation-container" id="mathewChildren" style="display:none">
+                <h3 class="generation-title">Mathew & Mary's Children</h3>
+                <div class="couples-grid">
+                    <!-- PETER & LISSY -->
+                    <div class="couple-card" onclick="showGeneration('peterChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="peter-photo"></div>
+                            <div class="wife-photo" id="lissy-photo"></div>
+                        </div>
+                        <div class="couple-names">Peter & Lissy</div>
+                        <div class="couple-dates">
+                            Peter: 1950-Present<br>
+                            Lissy: 1955-Present
+                        </div>
+                        <div class="children-count">3 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="peter-lissy-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="peter-lissy">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Peter & Lissy..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="peter-photo">Edit Peter's Photo</button>
+                        <button class="edit-photo-btn" data-target="lissy-photo">Edit Lissy's Photo</button>
+                    </div>
+                    
+                    <!-- VARGHESE & SOPHY -->
+                    <div class="couple-card" onclick="showGeneration('vargheseJrChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="vargheseJr-photo"></div>
+                            <div class="wife-photo" id="sophy-photo"></div>
+                        </div>
+                        <div class="couple-names">Varghese & Sophy</div>
+                        <div class="couple-dates">
+                            Varghese: 1952-Present<br>
+                            Sophy: 1957-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="varghese-sophy-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="varghese-sophy">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Varghese & Sophy..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="vargheseJr-photo">Edit Varghese's Photo</button>
+                        <button class="edit-photo-btn" data-target="sophy-photo">Edit Sophy's Photo</button>
+                    </div>
+                    
+                    <!-- SHINY & JOHNY -->
+                    <div class="couple-card" onclick="showGeneration('shinyChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="Johny-photo"></div>
+                            <div class="wife-photo" id="Shiny-photo"></div>
+                        </div>
+                        <div class="couple-names">Johny & Shiny</div>
+                        <div class="couple-dates">
+                            Johny: 1952-Present<br>
+                            Shiny: 1957-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="johny-shiny-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="johny-shiny">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Johny & Shiny..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="Johny-photo">Edit Johny Photo</button>
+                        <button class="edit-photo-btn" data-target="Shiny-photo">Edit Shiny Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PETER'S CHILDREN -->
+            <div class="generation-container" id="peterChildren" style="display:none">
+                <h3 class="generation-title">Peter & Lissy's Children</h3>
+                <div class="couples-grid">
+                    <!-- TEENA & JIJIN C -->
+                    <div class="couple-card" onclick="showGeneration('teenaChildren', this)">
+                        <div class="couple-photo">
+                            <div class="wife-photo" id="teena-photo"></div>
+                            <div class="husband-photo" id="jijinC-photo"></div>
+                        </div>
+                        <div class="couple-names">Teena & Jijin C</div>
+                        <div class="couple-dates">
+                            Teena: 1980-Present<br>
+                            Jijin: 1978-Present
+                        </div>
+                        <div class="children-count">1 child</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="teena-jijinC-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="teena-jijinC">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Teena & Jijin C..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="teena-photo">Edit Teena's Photo</button>
+                        <button class="edit-photo-btn" data-target="jijinC-photo">Edit Jijin's Photo</button>
+                    </div>
+                    
+                    <!-- TEMY & JIJIN L -->
+                    <div class="couple-card" onclick="showGeneration('temyChildren', this)">
+                        <div class="couple-photo">
+                            <div class="wife-photo" id="temy-photo"></div>
+                            <div class="husband-photo" id="jijinL-photo"></div>
+                        </div>
+                        <div class="couple-names">Temy & Jijin L</div>
+                        <div class="couple-dates">
+                            Temy: 1982-Present<br>
+                            Jijin: 1980-Present
+                        </div>
+                        <div class="children-count">1 child</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="temy-jijinL-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="temy-jijinL">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Temy & Jijin L..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="temy-photo">Edit Temy's Photo</button>
+                        <button class="edit-photo-btn" data-target="jijinL-photo">Edit Jijin's Photo</button>
+                    </div>
+                    
+                    <!-- BASIL (Single) -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="basil-photo"></div>
+                        </div>
+                        <div class="couple-names">Basil Kodiyattil</div>
+                        <div class="couple-dates">Born: 1985</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="basil-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="basil">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Basil..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="basil-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TEENA'S CHILDREN -->
+            <div class="generation-container" id="teenaChildren" style="display:none">
+                <h3 class="generation-title">Teena & Jijin's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="greg-photo"></div>
+                        </div>
+                        <div class="couple-names">Greg</div>
+                        <div class="couple-dates">Born: 2010</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="greg-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="greg">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Greg..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="greg-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TEMY'S CHILDREN -->
+            <div class="generation-container" id="temyChildren" style="display:none">
+                <h3 class="generation-title">Temy & Jijin's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="taara-photo"></div>
+                        </div>
+                        <div class="couple-names">Taara</div>
+                        <div class="couple-dates">Born: 2012</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="taara-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="taara">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Taara..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="taara-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VARGHESE JR'S CHILDREN -->
+            <div class="generation-container" id="vargheseJrChildren" style="display:none">
+                <h3 class="generation-title">Varghese & Sophy's Children</h3>
+                <div class="couples-grid">
+                    <!-- SHARON & STEVE -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="wife-photo" id="sharon-photo"></div>
+                            <div class="husband-photo" id="steve-photo"></div>
+                        </div>
+                        <div class="couple-names">Sharon & Steve</div>
+                        <div class="couple-dates">
+                            Sharon: 1985-Present<br>
+                            Steve: 1983-Present
+                        </div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="sharon-steve-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="sharon-steve">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Sharon & Steve..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="sharon-photo">Edit Sharon's Photo</button>
+                        <button class="edit-photo-btn" data-target="steve-photo">Edit Steve's Photo</button>
+                    </div>
+                    
+                    <!-- STEFFY (Single) -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="steffy-photo"></div>
+                        </div>
+                        <div class="couple-names">Steffy Kodiyattil</div>
+                        <div class="couple-dates">Born: 1988</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="steffy-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="steffy">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Steffy..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="steffy-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SHINY'S CHILDREN -->
+            <div class="generation-container" id="shinyChildren" style="display:none">
+                <h3 class="generation-title">Shiny & Jhonny's Children</h3>
+                <div class="couples-grid">
+                    <!-- RICHARD -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="richard-photo"></div>
+                        </div>
+                        <div class="couple-names">Richard</div>
+                        <div class="couple-dates">Born: 1990</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="richard-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="richard">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Richard..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="richard-photo">Edit Photo</button>
+                    </div>
+                    
+                    <!-- RONALDS -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="ronalds-photo"></div>
+                        </div>
+                        <div class="couple-names">Ronalds</div>
+                        <div class="couple-dates">Born: 1993</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="ronalds-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="ronalds">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Ronalds..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="ronalds-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VARGHESE (GRANDFATHER) CHILDREN -->
+            <div class="generation-container" id="vargheseChildren" style="display:none">
+                <h3 class="generation-title">Varghese & Annakutty's Children</h3>
+                <div class="couples-grid">
+                    <!-- REEJA & GEORGE -->
+                    <div class="couple-card" onclick="showGeneration('reejaChildren', this)">
+                        <div class="couple-photo">
+                            <div class="wife-photo" id="reeja-photo"></div>
+                            <div class="husband-photo" id="george-photo"></div>
+                        </div>
+                        <div class="couple-names">Reeja & George</div>
+                        <div class="couple-dates">
+                            Reeja: 1955-Present<br>
+                            George: 1952-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="reeja-george-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="reeja-george">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Reeja & George..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="reeja-photo">Edit Reeja's Photo</button>
+                        <button class="edit-photo-btn" data-target="george-photo">Edit George's Photo</button>
+                    </div>
+                    
+                    <!-- BAIJU & JOLY -->
+                    <div class="couple-card" onclick="showGeneration('baijuChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="baiju-photo"></div>
+                            <div class="wife-photo" id="joly-photo"></div>
+                        </div>
+                        <div class="couple-names">Baiju & Joly</div>
+                        <div class="couple-dates">
+                            Baiju: 1958-Present<br>
+                            Joly: 1960-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="baiju-joly-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="baiju-joly">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Baiju & Joly..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="baiju-photo">Edit Baiju's Photo</button>
+                        <button class="edit-photo-btn" data-target="joly-photo">Edit Joly's Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- REEJA'S CHILDREN -->
+            <div class="generation-container" id="reejaChildren" style="display:none">
+                <h3 class="generation-title">Reeja & George's Children</h3>
+                <div class="couples-grid">
+                    <!-- ALEN -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="alen-photo"></div>
+                        </div>
+                        <div class="couple-names">Alen</div>
+                        <div class="couple-dates">Born: 1985</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="alen-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="alen">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Alen..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="alen-photo">Edit Photo</button>
+                    </div>
+                    
+                    <!-- ALEIN -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="alein-photo"></div>
+                        </div>
+                        <div class="couple-names">Alein</div>
+                        <div class="couple-dates">Born: 1988</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="alein-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="alein">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Alein..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="alein-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BAIJU'S CHILDREN -->
+            <div class="generation-container" id="baijuChildren" style="display:none">
+                <h3 class="generation-title">Baiju & Joly's Children</h3>
+                <div class="couples-grid">
+                    <!-- MICHELLE -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="michelle-photo"></div>
+                        </div>
+                        <div class="couple-names">Michelle</div>
+                        <div class="couple-dates">Born: 1990</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="michelle-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="michelle">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Michelle..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="michelle-photo">Edit Photo</button>
+                    </div>
+                    
+                    <!-- MILAN -->
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="milan-photo"></div>
+                        </div>
+                        <div class="couple-names">Milan</div>
+                        <div class="couple-dates">Born: 1993</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="milan-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="milan">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Milan..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="milan-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- POULOSE'S CHILDREN -->
+            <div class="generation-container" id="pouloseChildren" style="display:none">
+                <h3 class="generation-title">Poulose & Mariyakutti's Children</h3>
+                <div class="couples-grid">
+                    <!-- BIJU & BEENA -->
+                    <div class="couple-card" onclick="showGeneration('bijuChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="biju-photo"></div>
+                            <div class="wife-photo" id="beena-photo"></div>
+                        </div>
+                        <div class="couple-names">Biju & Beena</div>
+                        <div class="couple-dates">
+                            Biju: 1955-Present<br>
+                            Beena: 1960-Present
+                        </div>
+                        <div class="children-count">1 child</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="biju-beena-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="biju-beena">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Biju & Beena..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="biju-photo">Edit Biju's Photo</button>
+                        <button class="edit-photo-btn" data-target="beena-photo">Edit Beena's Photo</button>
+                    </div>
+                    
+                    <!-- BINDHU & SHAJI -->
+                    <div class="couple-card" onclick="showGeneration('bindhuChildren', this)">
+                        <div class="couple-photo">
+                            <div class="wife-photo" id="bindhu-photo"></div>
+                            <div class="husband-photo" id="shaji-photo"></div>
+                        </div>
+                        <div class="couple-names">Bindhu & Shaji</div>
+                        <div class="couple-dates">
+                            Bindhu: 1958-Present<br>
+                            Shaji: 1955-Present
+                        </div>
+                        <div class="children-count">1 child</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="bindhu-shaji-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="bindhu-shaji">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Bindhu & Shaji..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="bindhu-photo">Edit Bindhu's Photo</button>
+                        <button class="edit-photo-btn" data-target="shaji-photo">Edit Shaji's Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BIJU'S CHILDREN -->
+            <div class="generation-container" id="bijuChildren" style="display:none">
+                <h3 class="generation-title">Biju & Beena's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="shorn-photo"></div>
+                        </div>
+                        <div class="couple-names">Shorn</div>
+                        <div class="couple-dates">Born: 1990</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="shorn-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="shorn">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Shorn..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="shorn-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BINDHU'S CHILDREN -->
+            <div class="generation-container" id="bindhuChildren" style="display:none">
+                <h3 class="generation-title">Bindhu & Shaji's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="basil2-photo"></div>
+                        </div>
+                        <div class="couple-names">Basil</div>
+                        <div class="couple-dates">Born: 1992</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="basil2-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="basil2">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Basil..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="basil2-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- THANKACHAN'S CHILDREN -->
+            <div class="generation-container" id="thankachanChildren" style="display:none">
+                <h3 class="generation-title">Thankachan & Susy's Children</h3>
+                <div class="couples-grid">
+                    <!-- SABI & JEENA -->
+                    <div class="couple-card" onclick="showGeneration('sabiChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="sabi-photo"></div>
+                            <div class="wife-photo" id="jeena-photo"></div>
+                        </div>
+                        <div class="couple-names">Sabi & Jeena</div>
+                        <div class="couple-dates">
+                            Sabi: 1955-Present<br>
+                            Jeena: 1960-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="sabi-jeena-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="sabi-jeena">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Sabi & Jeena..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="sabi-photo">Edit Sabi's Photo</button>
+                        <button class="edit-photo-btn" data-target="jeena-photo">Edit Jeena's Photo</button>
+                    </div>
+                    
+                    <!-- BISY & SHINTO -->
+                    <div class="couple-card" onclick="showGeneration('bisyChildren', this)">
+                        <div class="couple-photo">
+                            <div class="husband-photo" id="shinto-photo"></div>
+                            <div class="wife-photo" id="bisy-photo"></div>
+                        </div>
+                        <div class="couple-names">Shinto & Bisy</div>
+                        <div class="couple-dates">
+                            Shinto: 1955-Present<br>
+                            Bisy: 1960-Present
+                        </div>
+                        <div class="children-count">2 children</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="shinto-bisy-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="shinto-bisy">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Shinto & Bisy..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="shinto-photo">Edit Shinto's Photo</button>
+                        <button class="edit-photo-btn" data-target="bisy-photo">Edit Bisy's Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SABI'S CHILDREN -->
+            <div class="generation-container" id="sabiChildren" style="display:none">
+                <h3 class="generation-title">Sabi & Jeena's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="juana-photo"></div>
+                        </div>
+                        <div class="couple-names">Juana</div>
+                        <div class="couple-dates">Born: 1990</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="juana-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="juana">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Juana..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="juana-photo">Edit Photo</button>
+                    </div>
+                    
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="merin-photo"></div>
+                        </div>
+                        <div class="couple-names">Merin</div>
+                        <div class="couple-dates">Born: 1993</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="merin-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="merin">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Merin..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="merin-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BISY'S CHILDREN -->
+            <div class="generation-container" id="bisyChildren" style="display:none">
+                <h3 class="generation-title">Bisy & Shinto's Children</h3>
+                <div class="couples-grid">
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="deon-photo"></div>
+                        </div>
+                        <div class="couple-names">Deon</div>
+                        <div class="couple-dates">Born: 1995</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="deon-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="deon">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Deon..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="deon-photo">Edit Photo</button>
+                    </div>
+                    
+                    <div class="couple-card">
+                        <div class="couple-photo">
+                            <div class="single-photo" id="eshan-photo"></div>
+                        </div>
+                        <div class="couple-names">Eshan</div>
+                        <div class="couple-dates">Born: 1998</div>
+                        
+                        <!-- Introduction Section -->
+                        <div class="introduction-container" id="eshan-intro">
+                            <div class="introduction-text"></div>
+                            <div class="introduction-meta"></div>
+                            <button class="edit-intro-btn" data-member-id="eshan">Edit Introduction</button>
+                            
+                            <div class="intro-edit-container" style="display: none;">
+                                <textarea class="intro-edit-textarea" placeholder="Write an introduction about Eshan..."></textarea>
+                                <div class="intro-edit-buttons">
+                                    <button class="intro-save-btn">Save</button>
+                                    <button class="intro-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="edit-photo-btn" data-target="eshan-photo">Edit Photo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <div class="gallery-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 class="section-title">Family Gallery</h2>
+                    <button class="header-btn" onclick="loadGallery()">
+                        <i class="fas fa-sync-alt"></i> Refresh Gallery
+                    </button>
+                </div>
+                
+                <div class="photo-grid">
+                    <p style="grid-column: 1 / -1; text-align: center; color: #666;">
+                        Loading gallery photos...
+                    </p>
+                </div>
+                
+                <div class="upload-section">
+                    <input type="file" id="photoUpload" accept="image/*" multiple style="display: none;">
+                    <button class="upload-btn" onclick="document.getElementById('photoUpload').click()">
+                        <i class="fas fa-upload"></i> Upload Family Photos
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-logo">Kodiyattil</div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy</a>
+            </div>
+            <p class="copyright">© 2023 Kodiyattil Family. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" 
+        crossorigin=""></script>  
+  <script>
+// =================================================================================
+// GLOBAL VARIABLES
+// =================================================================================
+let currentVisibleGeneration = null;
+const generationHistory = [];
+let currentPhotoTarget = null;
+let isAuthenticated = false;
+let currentUser = null;
+
+// Sample family data with locations
+const familyMembersData = [
+    // Great Grandparents
+    {
+        id: "pathrose-mariyam",
+        name: "Pathrose & Mariyam Kodiyattil",
+        branch: "great-grandparents",
+        generation: 1,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: ""
+    },
+    
+    // Grandparents Generation
+    {
+        id: "mathew-mary",
+        name: "Mathew & Mary Kodiyattil",
+        branch: "mathew",
+        generation: 2,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: ""
+    },
+    {
+        id: "varghese-annakutty",
+        name: "Varghese & Annakutty Kodiyattil",
+        branch: "varghese",
+        generation: 2,
+        location: { lat: 11.2800, lng: 76.2300 }, // Nilambur, Malappuram
+        city: "Nilambur, Malappuram, Kerala, India",
+        email: ""
+    },
+    {
+        id: "poulose-mariyakutti",
+        name: "Poulose & Mariyakutti Kodiyattil",
+        branch: "poulose",
+        generation: 2,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: ""
+    },
+    {
+        id: "thankachan-susy",
+        name: "Thankachan & Susy Kodiyattil",
+        branch: "thankachan",
+        generation: 2,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: ""
+    },
+    
+    // Mathew & Mary's Children
+    {
+        id: "peter-lissy",
+        name: "Peter & Lissy Kodiyattil",
+        branch: "mathew",
+        generation: 3,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: "peter@example.com"
+    },
+    {
+        id: "varghese-sophy",
+        name: "Varghese & Sophy Kodiyattil",
+        branch: "mathew",
+        generation: 3,
+        location: { lat: 25.3548, lng: 51.1839 }, // Qatar
+        city: "Qatar",
+        email: "varghesejr@example.com"
+    },
+    {
+        id: "johny-shiny",
+        name: "Johny & Shiny Kodiyattil",
+        branch: "mathew",
+        generation: 3,
+        location: { lat: 17.3850, lng: 78.4867 }, // Hyderabad
+        city: "Hyderabad, India",
+        email: "johny@example.com"
+    },
+    
+    // Peter & Lissy's Children
+    {
+        id: "teena-jijin",
+        name: "Teena & Jijin C",
+        branch: "mathew",
+        generation: 4,
+        location: { lat: -28.2211, lng: 152.0314 }, // Warwick, Australia
+        city: "Warwick, Australia",
+        email: "teena@kodiyattil.com"
+    },
+    {
+        id: "temy-jijinl",
+        name: "Temy & Jijin L",
+        branch: "mathew",
+        generation: 4,
+        location: { lat: -28.2211, lng: 152.0314 }, // Warwick, Australia
+        city: "Warwick, Australia",
+        email: "temy@example.com"
+    },
+    {
+        id: "basil",
+        name: "Basil Kodiyattil",
+        branch: "mathew",
+        generation: 4,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: "basil@kodiyattil.com"
+    },
+    
+    // Teena's Children
+    {
+        id: "gregg",
+        name: "Gregg",
+        branch: "mathew",
+        generation: 5,
+        location: { lat: -28.2211, lng: 152.0314 }, // Warwick, Australia
+        city: "Warwick, Australia",
+        email: ""
+    },
+    
+    // Temy's Children
+    {
+        id: "taara",
+        name: "Taara",
+        branch: "mathew",
+        generation: 5,
+        location: { lat: -28.2211, lng: 152.0314 }, // Warwick, Australia
+        city: "Warwick, Australia",
+        email: ""
+    },
+    
+    // Varghese & Annakutty's Children
+    {
+        id: "reeja-george",
+        name: "Reeja & George",
+        branch: "varghese",
+        generation: 3,
+        location: { lat: 11.2800, lng: 76.2300 }, // Nilambur, Malappuram
+        city: "Nilambur, Malappuram, Kerala, India",
+        email: "reeja@example.com"
+    },
+    {
+        id: "baiju-joly",
+        name: "Baiju & Joly",
+        branch: "varghese",
+        generation: 3,
+        location: { lat: 24.7136, lng: 46.6753 }, // Riyadh, Saudi Arabia
+        city: "Riyadh, Saudi Arabia",
+        email: "baiju@example.com"
+    },
+    
+    // Reeja & George's Children
+    {
+        id: "alen",
+        name: "Alen",
+        branch: "varghese",
+        generation: 4,
+        location: { lat: 11.2800, lng: 76.2300 }, // Nilambur, Malappuram
+        city: "Nilambur, Malappuram, Kerala, India",
+        email: ""
+    },
+    {
+        id: "alein",
+        name: "Alein",
+        branch: "varghese",
+        generation: 4,
+        location: { lat: 11.2800, lng: 76.2300 }, // Nilambur, Malappuram
+        city: "Nilambur, Malappuram, Kerala, India",
+        email: ""
+    },
+    
+    // Baiju & Joly's Children
+    {
+        id: "michelle",
+        name: "Michelle",
+        branch: "varghese",
+        generation: 4,
+        location: { lat: 24.7136, lng: 46.6753 }, // Riyadh, Saudi Arabia
+        city: "Riyadh, Saudi Arabia",
+        email: ""
+    },
+    {
+        id: "milan",
+        name: "Milan",
+        branch: "varghese",
+        generation: 4,
+        location: { lat: 24.7136, lng: 46.6753 }, // Riyadh, Saudi Arabia
+        city: "Riyadh, Saudi Arabia",
+        email: ""
+    },
+    
+    // Poulose & Mariyakutti's Children
+    {
+        id: "biju-beena",
+        name: "Biju & Beena",
+        branch: "poulose",
+        generation: 3,
+        location: { lat: 11.8938, lng: 75.8000 }, // Peravoor, Kannur
+        city: "Peravoor, Kannur, Kerala, India",
+        email: "biju@example.com"
+    },
+    {
+        id: "bindhu-shaji",
+        name: "Bindhu & Shaji",
+        branch: "poulose",
+        generation: 3,
+        location: { lat: 11.8938, lng: 75.8000 }, // Iritty, Kannur (approx)
+        city: "Iritty, Kannur, Kerala, India",
+        email: "bindhu@example.com"
+    },
+    
+    // Biju & Beena's Children
+    {
+        id: "shorn",
+        name: "Shorn",
+        branch: "poulose",
+        generation: 4,
+        location: { lat: 1.3521, lng: 103.8198 }, // Singapore
+        city: "Singapore",
+        email: ""
+    },
+    
+    // Bindhu & Shaji's Children
+    {
+        id: "basil2",
+        name: "Basil",
+        branch: "poulose",
+        generation: 4,
+        location: { lat: 11.8938, lng: 75.8000 }, // Iritty, Kannur (approx)
+        city: "Iritty, Kannur, Kerala, India",
+        email: ""
+    },
+    
+    // Thankachan & Susy's Children
+    {
+        id: "sabi-jeena",
+        name: "Sabi & Jeena",
+        branch: "thankachan",
+        generation: 3,
+        location: { lat: 39.5501, lng: -105.7821 }, // Colorado, USA
+        city: "Colorado, USA",
+        email: "sabi@example.com"
+    },
+    {
+        id: "bisy-shinto",
+        name: "Bisy & Shinto",
+        branch: "thankachan",
+        generation: 3,
+        location: { lat: 11.7050, lng: 76.1350 }, // Bathery, Wayanad
+        city: "Bathery, Wayanad, Kerala, India",
+        email: "bisy@example.com"
+    },
+    
+    // Sabi & Jeena's Children
+    {
+        id: "juana",
+        name: "Juana",
+        branch: "thankachan",
+        generation: 4,
+        location: { lat: 39.5501, lng: -105.7821 }, // Colorado, USA
+        city: "Colorado, USA",
+        email: ""
+    },
+    {
+        id: "merin",
+        name: "Merin",
+        branch: "thankachan",
+        generation: 4,
+        location: { lat: 39.5501, lng: -105.7821 }, // Colorado, USA
+        city: "Colorado, USA",
+        email: ""
+    },
+    
+    // Bisy & Shinto's Children
+    {
+        id: "deon",
+        name: "Deon",
+        branch: "thankachan",
+        generation: 4,
+        location: { lat: 11.7050, lng: 76.1350 }, // Bathery, Wayanad
+        city: "Bathery, Wayanad, Kerala, India",
+        email: ""
+    },
+    {
+        id: "eshan",
+        name: "Eshan",
+        branch: "thankachan",
+        generation: 4,
+        location: { lat: 11.7050, lng: 76.1350 }, // Bathery, Wayanad
+        city: "Bathery, Wayanad, Kerala, India",
+        email: ""
+    }
+];
+
+let familyMap = null;
+let familyMarkers = [];
+let connectionLines = [];
+
+// =================================================================================
+// API & UI HELPERS
+// =================================================================================
+
+function showGeneration(generationId, clickedElement) {
+    const element = document.getElementById(generationId);
+    if (!element) return;
+
+    if (currentVisibleGeneration && currentVisibleGeneration !== generationId) {
+        document.getElementById(currentVisibleGeneration).style.display = 'none';
+    }
+
+    if (element.style.display === 'none') {
+        if (currentVisibleGeneration) {
+            generationHistory.push(currentVisibleGeneration);
+            document.getElementById('familyBackBtn').style.display = 'inline-block';
+        }
+        element.style.display = 'block';
+        currentVisibleGeneration = generationId;
+
+        const parentContainer = clickedElement.closest('.generation-container');
+        parentContainer.insertAdjacentElement('afterend', element);
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        element.style.display = 'none';
+        currentVisibleGeneration = generationHistory.pop() || null;
+        if (!generationHistory.length) {
+            document.getElementById('familyBackBtn').style.display = 'none';
+        }
+    }
+}
+
+function returnHome() {
+    document.getElementById('heroSection').style.display = 'flex';
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('welcomeSection').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Function to update profile photo
+async function updateProfilePhoto(file, memberId) {
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('memberId', memberId);
+
+    try {
+        const response = await fetch("/api/edit-photo", {
+            method: "POST",
+            body: formData,
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update the UI immediately
+            const photoElement = document.getElementById(memberId);
+            if (photoElement) {
+                photoElement.style.backgroundImage = `url(${data.photoUrl})`;
+            }
+            
+            // Also update localStorage as fallback
+            localStorage.setItem(memberId, data.photoUrl);
+            
+            alert("Profile photo updated successfully!");
+            return true;
+        } else {
+            throw new Error(data.error || "Failed to update photo");
+        }
+    } catch (error) {
+        console.error("Photo update error:", error);
+        alert("Error updating photo: " + error.message);
+        return false;
+    }
+}
+
+// Initialize photos with proper error handling
+async function initializePhotos() {
+    document.querySelectorAll('[id$="-photo"]').forEach(el => {
+        const memberId = el.id;
+        
+        // First try to load from server
+        fetch(`/api/member-photo/${memberId.replace('-photo', '')}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.photoUrl) {
+                    el.style.backgroundImage = `url(${data.photoUrl})`;
+                    localStorage.setItem(memberId, data.photoUrl);
+                } else {
+                    // Fallback to localStorage
+                    const savedPhoto = localStorage.getItem(memberId);
+                    if (savedPhoto) {
+                        el.style.backgroundImage = `url(${savedPhoto})`;
+                    } else {
+                        // Final fallback to placeholder
+                        el.style.backgroundImage = 'url("https://via.placeholder.com/150?text=Kodiyattil")';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(`Failed to load photo for ${memberId}:`, error);
+                // Fallback to localStorage
+                const savedPhoto = localStorage.getItem(memberId);
+                if (savedPhoto) {
+                    el.style.backgroundImage = `url(${savedPhoto})`;
+                } else {
+                    el.style.backgroundImage = 'url("https://via.placeholder.com/150?text=Kodiyattil")';
+                }
+            });
+    });
+    
+    // Load gallery photos
+    await loadGallery();
+}
+
+// =================================================================================
+// AUTHENTICATION & PERMISSIONS
+// =================================================================================
+async function checkAuthStatus() {
+    try {
+        const response = await fetch("/api/check-auth", { 
+            credentials: 'include' 
+        });
+        
+        if (!response.ok) {
+            throw new Error("Auth check failed");
+        }
+
+        const data = await response.json();
+        isAuthenticated = data.authenticated;
+        
+        if (isAuthenticated) {
+            currentUser = data.user;
+            document.body.classList.add('authenticated');
+            // Show logout button
+            document.getElementById('navLogoutBtn').style.display = 'block';
+            
+            // Show upload section for all authenticated users
+            document.querySelector('.upload-section').style.display = 'block';
+            
+            // Show edit buttons for all authenticated users
+            document.querySelectorAll('.edit-photo-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+
+            // Show edit introduction buttons
+            document.querySelectorAll('.edit-intro-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+
+            // Show Add Notification button if editor
+            document.getElementById('addNotificationBtn').style.display = 
+                (currentUser?.can_edit) ? 'block' : 'none';
+                
+            // Add edit permission class if user has edit rights
+            if (currentUser?.can_edit) {
+                document.body.classList.add('has-edit-permission');
+            } else {
+                document.body.classList.remove('has-edit-permission');
+            }
+        } else {
+            currentUser = null;
+            document.body.classList.remove('authenticated', 'has-edit-permission');
+            // Hide logout button
+            document.getElementById('navLogoutBtn').style.display = 'none';
+            document.querySelector('.upload-section').style.display = 'none';
+            
+            // Hide edit buttons
+            document.querySelectorAll('.edit-photo-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+
+            // Hide edit introduction buttons
+            document.querySelectorAll('.edit-intro-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+        }
+    } catch (error) {
+        console.error("Auth check failed:", error);
+        isAuthenticated = false;
+        currentUser = null;
+        document.body.classList.remove('authenticated', 'has-edit-permission');
+        // Hide logout button on error too
+        document.getElementById('navLogoutBtn').style.display = 'none';
+    }
+}
+
+async function loadGallery() {
+    try {
+        const response = await fetch("/api/gallery");
+        const data = await response.json();
+        
+        if (data.success) {
+            const photoGrid = document.querySelector('.photo-grid');
+            photoGrid.innerHTML = ''; // Clear existing photos
+            
+            if (data.gallery.length === 0) {
+                photoGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666;">No photos in gallery yet</p>';
+                return;
+            }
+            
+            data.gallery.forEach(photo => {
+                const photoContainer = document.createElement('div');
+                photoContainer.className = 'photo-item-container';
+                photoContainer.style.position = 'relative';
+                
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                photoItem.style.backgroundImage = `url(${photo.url})`;
+                photoItem.setAttribute('data-filename', photo.filename);
+                photoItem.setAttribute('title', `Uploaded by ${photo.uploaded_by} on ${photo.upload_date}`);
+                
+                // Add click to view larger
+                photoItem.addEventListener('click', () => viewPhoto(photo.url));
+                
+                // Add delete button if user can delete this photo
+                if (isAuthenticated && (currentUser.email === photo.uploaded_by || currentUser.can_edit)) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-photo-btn';
+                    deleteBtn.innerHTML = '×';
+                    deleteBtn.setAttribute('title', 'Delete this photo');
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent triggering the photo view
+                        deletePhoto(photo.filename);
+                    });
+                    photoItem.appendChild(deleteBtn);
+                }
+                
+                photoContainer.appendChild(photoItem);
+                photoGrid.appendChild(photoContainer);
+            });
+        }
+    } catch (error) {
+        console.error("Failed to load gallery:", error);
+        const photoGrid = document.querySelector('.photo-grid');
+        photoGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666;">Error loading gallery</p>';
+    }
+}
+
+async function deletePhoto(filename) {
+    if (!confirm("Are you sure you want to delete this photo?")) {
+        return;
+    }
+    
+    try {
+        const response = await fetch("/api/delete-photo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ filename }),
+            credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert("Photo deleted successfully!");
+            await loadGallery(); // Reload the gallery
+        } else {
+            alert("Error: " + (data.error || "Failed to delete photo"));
+        }
+    } catch (error) {
+        console.error("Delete photo error:", error);
+        alert("Error deleting photo: " + error.message);
+    }
+}
+
+function viewPhoto(url) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 90%; max-height: 90%;">
+            <span class="close-modal">&times;</span>
+            <img src="${url}" style="width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+    try {
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value
+            }),
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Login failed");
+
+        // ✅ Set UI state immediately on successful login
+        isAuthenticated = true;
+        currentUser = data.user;
+        document.body.classList.add('authenticated');
+        if (data.user?.can_edit) {
+            document.body.classList.add('has-edit-permission');
+        }
+
+        localStorage.setItem('userData', JSON.stringify(data.user));
+
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+
+        // Show Add Notification button if editor
+        document.getElementById('addNotificationBtn').style.display =
+            (currentUser?.can_edit) ? 'block' : 'none';
+
+        // Show edit buttons
+        document.querySelectorAll('.edit-intro-btn').forEach(btn => {
+            btn.style.display = 'inline-block';
+        });
+
+    } catch (error) {
+        alert("Login failed: " + error.message);
+    } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Login';
+    }
+}
+
+async function logout() {
+    try {
+        await fetch("/api/logout", {
+            method: "POST",
+            credentials: 'include'
+        });
+    } catch (error) {
+        console.error("Logout request failed:", error);
+    } finally {
+        isAuthenticated = false;
+        currentUser = null;
+        document.body.classList.remove('authenticated', 'has-edit-permission');
+        localStorage.removeItem('userData');
+        returnHome();
+    }
+}
+
+// =================================================================================
+// INTRODUCTION FUNCTIONS
+// =================================================================================
+
+// Load introduction for a member
+async function loadIntroduction(memberId) {
+    try {
+        const response = await fetch(`/api/introduction/${memberId}`);
+        const data = await response.json();
+        
+        const introContainer = document.getElementById(`${memberId}-intro`);
+        if (!introContainer) return;
+        
+        const introText = introContainer.querySelector('.introduction-text');
+        const introMeta = introContainer.querySelector('.introduction-meta');
+        
+        if (data.success && data.introduction) {
+            introText.textContent = data.introduction;
+            if (data.last_updated && data.updated_by) {
+                introMeta.textContent = `Last updated: ${data.last_updated} by ${data.updated_by}`;
+            } else {
+                introMeta.textContent = "";
+            }
+        } else {
+            introText.textContent = "No introduction yet. Click 'Edit Introduction' to add one.";
+            introMeta.textContent = "";
+        }
+    } catch (error) {
+        console.error("Failed to load introduction:", error);
+    }
+}
+
+// Save introduction
+async function saveIntroduction(memberId, introductionText) {
+    try {
+        const response = await fetch(`/api/introduction/${memberId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ introduction: introductionText }),
+            credentials: 'include'
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            await loadIntroduction(memberId); // Reload the introduction
+            return true;
+        } else {
+            throw new Error(data.error || "Failed to save introduction");
+        }
+    } catch (error) {
+        console.error("Save introduction error:", error);
+        alert("Error saving introduction: " + error.message);
+        return false;
+    }
+}
+
+// Initialize all introductions
+async function initializeIntroductions() {
+    // Get all introduction containers and load their content
+    document.querySelectorAll('[id$="-intro"]').forEach(container => {
+        const memberId = container.id.replace('-intro', '');
+        loadIntroduction(memberId);
+    });
+}
+
+// Toggle edit mode for introduction
+function toggleIntroEdit(memberId, isEditing) {
+    const introContainer = document.getElementById(`${memberId}-intro`);
+    if (!introContainer) return;
+    
+    const displayView = introContainer.querySelector('.introduction-text').closest('div');
+    const editView = introContainer.querySelector('.intro-edit-container');
+    const textarea = editView.querySelector('.intro-edit-textarea');
+    
+    if (isEditing) {
+        // Switch to edit mode
+        displayView.style.display = 'none';
+        editView.style.display = 'block';
+        textarea.value = introContainer.querySelector('.introduction-text').textContent;
+        textarea.focus();
+    } else {
+        // Switch to view mode
+        editView.style.display = 'none';
+        displayView.style.display = 'block';
+    }
+}
+
+// =================================================================================
+// FAMILY MAP FUNCTIONS
+// =================================================================================
+
+// Initialize the family map
+function initFamilyMap() {
+    // Create a map centered on India
+    familyMap = L.map('familyMap').setView([20.5937, 78.9629], 5);
+    
+    // Add the base map layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(familyMap);
+    
+    // Load family locations from API
+    loadFamilyLocations();
+    
+    // Setup filter event listeners
+    setupMapFilters();
+}
+
+// Add family members as markers on the map
+function addFamilyMembersToMap() {
+    // Clear existing markers and lines
+    clearMapElements();
+    
+    // Get current filter values
+    const branchFilter = document.getElementById('branchFilter').value;
+    const generationFilter = document.getElementById('generationFilter').value;
+    
+    // Filter family members based on current filters
+    const filteredMembers = familyMembersData.filter(member => {
+        const branchMatch = branchFilter === 'all' || member.branch === branchFilter;
+        const generationMatch = generationFilter === 'all' || member.generation.toString() === generationFilter;
+        return branchMatch && generationMatch;
+    });
+    
+    // Add markers for each filtered member
+    filteredMembers.forEach(member => {
+        // Create custom icon based on generation
+        const icon = L.divIcon({
+            className: `family-marker generation-${member.generation} branch-${member.branch}`,
+            html: `<div class="marker-inner">${member.generation}</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+        
+        const marker = L.marker([member.location.lat, member.location.lng], {icon})
+            .addTo(familyMap)
+            .bindPopup(`
+                <div class="map-popup">
+                    <h4>${member.name}</h4>
+                    <p>${member.city}</p>
+                    <p>Generation: ${member.generation}</p>
+                    <p>Branch: ${getBranchName(member.branch)}</p>
+                </div>
+            `);
+        
+        familyMarkers.push(marker);
+    });
+    
+    // Draw connection lines between family members
+    drawConnectionLines(filteredMembers);
+    
+    // Adjust map view to show all markers
+    if (filteredMembers.length > 0) {
+        const group = new L.featureGroup(familyMarkers);
+        familyMap.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+// Draw connection lines between family members of the same branch
+function drawConnectionLines(members) {
+    // Group members by branch
+    const membersByBranch = {};
+    members.forEach(member => {
+        if (!membersByBranch[member.branch]) {
+            membersByBranch[member.branch] = [];
+        }
+        membersByBranch[member.branch].push(member);
+    });
+    
+    // Draw lines for each branch
+    Object.keys(membersByBranch).forEach(branch => {
+        const branchMembers = membersByBranch[branch];
+        
+        if (branchMembers.length > 1) {
+            // Create lines connecting all members in this branch
+            for (let i = 0; i < branchMembers.length - 1; i++) {
+                for (let j = i + 1; j < branchMembers.length; j++) {
+                    const member1 = branchMembers[i];
+                    const member2 = branchMembers[j];
+                    
+                    const line = L.polyline([
+                        [member1.location.lat, member1.location.lng],
+                        [member2.location.lat, member2.location.lng]
+                    ], {
+                        color: getBranchColor(branch),
+                        weight: 2,
+                        dashArray: '5, 5',
+                        opacity: 0.7
+                    }).addTo(familyMap);
+                    
+                    connectionLines.push(line);
+                }
+            }
+        }
+    });
+}
+
+// Clear all markers and lines from the map
+function clearMapElements() {
+    familyMarkers.forEach(marker => familyMap.removeLayer(marker));
+    connectionLines.forEach(line => familyMap.removeLayer(line));
+    familyMarkers = [];
+    connectionLines = [];
+}
+
+// Render the list of family members
+function renderFamilyMembersList() {
+    const membersContainer = document.getElementById('membersContainer');
+    membersContainer.innerHTML = '';
+    
+    // Get current filter values
+    const branchFilter = document.getElementById('branchFilter').value;
+    const generationFilter = document.getElementById('generationFilter').value;
+    
+    // Filter family members based on current filters
+    const filteredMembers = familyMembersData.filter(member => {
+        const branchMatch = branchFilter === 'all' || member.branch === branchFilter;
+        const generationMatch = generationFilter === 'all' || member.generation.toString() === generationFilter;
+        return branchMatch && generationMatch;
+    });
+    
+    // Add member cards to the list
+    filteredMembers.forEach(member => {
+        const memberCard = document.createElement('div');
+        memberCard.className = 'member-card';
+        memberCard.innerHTML = `
+            <div class="member-name">${member.name}</div>
+            <div class="member-location">${member.city}</div>
+            <div class="member-branch branch-${member.branch}">${getBranchName(member.branch)}</div>
+            <div class="member-generation">Generation: ${member.generation}</div>
+        `;
+        
+        // Add click event to center map on this member
+        memberCard.addEventListener('click', () => {
+            familyMap.setView([member.location.lat, member.location.lng], 7);
+            familyMarkers.forEach(marker => {
+                if (marker.getLatLng().lat === member.location.lat && 
+                    marker.getLatLng().lng === member.location.lng) {
+                    marker.openPopup();
+                }
+            });
+        });
+        
+        membersContainer.appendChild(memberCard);
+    });
+    
+    // Show message if no members match the filter
+    if (filteredMembers.length === 0) {
+        membersContainer.innerHTML = '<p class="no-members">No family members match the selected filters.</p>';
+    }
+}
+
+// Set up event listeners for map filters
+function setupMapFilters() {
+    document.getElementById('branchFilter').addEventListener('change', updateMap);
+    document.getElementById('generationFilter').addEventListener('change', updateMap);
+    document.getElementById('resetFilters').addEventListener('click', resetFilters);
+}
+
+// Update map based on current filters
+function updateMap() {
+    addFamilyMembersToMap();
+    renderFamilyMembersList();
+}
+
+// Reset all filters to default
+function resetFilters() {
+    document.getElementById('branchFilter').value = 'all';
+    document.getElementById('generationFilter').value = 'all';
+    updateMap();
+}
+
+// Helper function to get branch name from branch ID
+function getBranchName(branchId) {
+    const branchNames = {
+        'great-grandparents': 'Great Grandparents',
+        'mathew': 'Mathew & Mary',
+        'varghese': 'Varghese & Annakutty',
+        'poulose': 'Poulose & Mariyakutti',
+        'thankachan': 'Thankachan & Susy'
+    };
+    return branchNames[branchId] || branchId;
+}
+
+// Helper function to get color for each branch
+function getBranchColor(branchId) {
+    const branchColors = {
+        'great-grandparents': '#888888',
+        'mathew': '#4e79a7',
+        'varghese': '#f28e2c',
+        'poulose': '#e15759',
+        'thankachan': '#76b7b2'
+    };
+    return branchColors[branchId] || '#000000';
+}
+
+// =================================================================================
+// DYNAMIC CONTENT (PHOTOS & NOTIFICATIONS)
+// =================================================================================
+function renderNotifications(notificationList) {
+    const notificationListDiv = document.getElementById('notificationList');
+    notificationListDiv.innerHTML = '';
+    notificationList.forEach(notif => {
+        const item = document.createElement('div');
+        item.className = 'notification-item';
+        item.innerHTML = `<p><strong>${notif.title}</strong> ${notif.date ? `- ${notif.date}` : ''}</p><p>${notif.message}</p>`;
+        notificationListDiv.appendChild(item);
+    });
+}
+
+async function fetchNotifications() {
+    try {
+        const response = await fetch("/api/notifications");
+        const data = await response.json();
+        if (data.success) {
+            renderNotifications(data.notifications);
+        }
+    } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+    }
+}
+async function loadFamilyLocations() {
+    try {
+        const response = await fetch("/api/family-locations");
+        const data = await response.json();
+        
+        if (data.success) {
+            // Store the data for filtering
+            window.familyMembersData = data.members;
+            
+            // Add family members to the map
+            addFamilyMembersToMap();
+            
+            // Populate the members list
+            renderFamilyMembersList();
+        } else {
+            console.error("Failed to load family locations:", data.error);
+        }
+    } catch (error) {
+        console.error("Error loading family locations:", error);
+    }}
+
+async function handleGalleryUpload(files) {
+    if (!isAuthenticated) {
+        return alert("Please login to upload photos.");
+    }
+    
+    const formData = new FormData();
+    for (const file of files) {
+        formData.append('photos', file);
+    }
+
+    try {
+        const response = await fetch("/api/upload-photo", {
+            method: "POST",
+            body: formData,
+            credentials: 'include'
+        });
+
+    const data = await response.json();
+    if (data.success) {
+        alert("Photos uploaded successfully!");
+        // Reload the gallery to show new photos
+        await loadGallery();
+    } else {
+        throw new Error(data.error || "Upload failed");
+    }
+    } catch (error) {
+        console.error("Gallery upload error:", error);
+        alert("Error uploading photos: " + error.message);
+    }
+}
+
+// =================================================================================
+// MAIN INITIALIZATION
+// =================================================================================
+document.addEventListener('DOMContentLoaded', async function() {
+    await checkAuthStatus();
+    await initializePhotos();
+    await initializeIntroductions();
+    await fetchNotifications();
+
+    // Nav Buttons
+    document.getElementById('navHomeBtn').addEventListener('click', returnHome);
+    document.getElementById('navLogoutBtn').addEventListener('click', logout);
+    document.getElementById('navNotificationBtn').addEventListener('click', () => document.getElementById('notificationModal').style.display = 'block');
+    document.getElementById('navAboutBtn').addEventListener('click', () => document.getElementById('aboutModal').style.display = 'block');
+    document.getElementById('navContactBtn').addEventListener('click', () => document.getElementById('contactModal').style.display = 'block');
+
+    // Landing
+    document.getElementById('yesBtn').addEventListener('click', () => {
+        document.getElementById('heroSection').style.display = 'none';
+        document.getElementById('loginSection').style.display = 'block';
+    });
+    document.getElementById('noBtn').addEventListener('click', () => {
+        document.getElementById('heroSection').style.display = 'none';
+        document.getElementById('welcomeSection').style.display = 'block';
+    });
+    document.getElementById('exploreBtn').addEventListener('click', () => {
+        document.getElementById('welcomeSection').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+    });
+
+    // Home buttons
+    document.getElementById('loginHomeBtn').addEventListener('click', returnHome);
+    document.getElementById('welcomeHomeBtn').addEventListener('click', returnHome);
+
+    // Login Form
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+    // Family Back
+    document.getElementById('familyBackBtn').addEventListener('click', () => {
+        if (currentVisibleGeneration) {
+            document.getElementById(currentVisibleGeneration).style.display = 'none';
+        }
+        const prev = generationHistory.pop();
+        if (prev) {
+            document.getElementById(prev).style.display = 'block';
+            currentVisibleGeneration = prev;
+        } else {
+            currentVisibleGeneration = null;
+        }
+        if (!generationHistory.length) {
+            document.getElementById('familyBackBtn').style.display = 'none';
+        }
+    });
+
+    // Add Notification
+    document.getElementById('addNotificationBtn').addEventListener('click', async () => {
+        if (!isAuthenticated || !currentUser?.can_edit) return;
+        const title = prompt("Enter notification title:");
+        if (!title) return;
+        const message = prompt("Enter notification message:");
+        if (!message) return;
+        
+        try {
+            const response = await fetch("/api/notifications", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, message }),
+                credentials: 'include'
+            });
+            const data = await response.json();
+            if (data.success) {
+                await fetchNotifications();
+            } else {
+                alert("Error: " + data.error);
+            }
+        } catch (error) {
+            console.error("Add notification error:", error);
+        }
+    });
+
+    // Gallery Upload
+    document.getElementById('photoUpload').addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleGalleryUpload(e.target.files);
+            e.target.value = '';
+        }
+    });
+
+    // Edit Photo buttons
+    document.querySelectorAll('.edit-photo-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isAuthenticated) {
+                currentPhotoTarget = this.getAttribute('data-target');
+                document.getElementById('photoMemberId').value = currentPhotoTarget;
+                document.getElementById('photoModal').style.display = 'block';
+            } else {
+                alert("Please login to edit photos.");
+            }
+        });
+    });
+
+    // Photo upload form submission
+    document.getElementById('photoUploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const fileInput = document.getElementById('memberPhotoUpload');
+        const memberId = document.getElementById('photoMemberId').value;
+        
+        if (fileInput.files.length > 0 && memberId) {
+            const success = await updateProfilePhoto(fileInput.files[0], memberId);
+            if (success) {
+                document.getElementById('photoModal').style.display = 'none';
+                document.getElementById('uploadPreview').style.display = 'none';
+                fileInput.value = '';
+            }
+        }
+    });
+
+    // File input change handler for preview
+    document.getElementById('memberPhotoUpload').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('uploadPreview').src = event.target.result;
+                document.getElementById('uploadPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    // Add event listeners for introduction editing
+    document.querySelectorAll('.edit-intro-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!isAuthenticated) {
+                alert("Please login to edit introductions.");
+                return;
+            }
+            const memberId = this.getAttribute('data-member-id');
+            toggleIntroEdit(memberId, true);
+        });
+    });
+    
+    document.querySelectorAll('.intro-save-btn').forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const introContainer = this.closest('.introduction-container');
+            const memberId = introContainer.id.replace('-intro', '');
+            const textarea = introContainer.querySelector('.intro-edit-textarea');
+            
+            const success = await saveIntroduction(memberId, textarea.value);
+            if (success) {
+                toggleIntroEdit(memberId, false);
+            }
+        });
+    });
+    
+    document.querySelectorAll('.intro-cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const introContainer = this.closest('.introduction-container');
+            const memberId = introContainer.id.replace('-intro', '');
+            toggleIntroEdit(memberId, false);
+        });
+    });
+
+    // Initialize the family map if the section exists
+    if (document.getElementById('familyMap')) {
+        initFamilyMap();
+    }
+
+    // Modal close handlers
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.querySelector('.close-modal')?.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
